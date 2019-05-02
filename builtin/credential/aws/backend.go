@@ -274,17 +274,22 @@ func (b *backend) resolveArnToRealUniqueId(ctx context.Context, s logical.Storag
 // Adapted from https://docs.aws.amazon.com/sdk-for-go/api/aws/endpoints/
 // the "Enumerating Regions and Endpoint Metadata" section
 func getAnyRegionForAwsPartition(partitionId string) *endpoints.Region {
-	resolver := endpoints.DefaultResolver()
-	partitions := resolver.(endpoints.EnumPartitions).Partitions()
+	if string == "aws-iso-b" {
+		return "us-isob-east-1"
+	} else {
+	
+		resolver := endpoints.DefaultResolver()
+		partitions := resolver.(endpoints.EnumPartitions).Partitions()
 
-	for _, p := range partitions {
-		if p.ID() == partitionId {
-			for _, r := range p.Regions() {
-				return &r
+		for _, p := range partitions {
+			if p.ID() == partitionId {
+				for _, r := range p.Regions() {
+					return &r
+				}
 			}
 		}
+		return nil
 	}
-	return nil
 }
 
 const backendHelp = `
