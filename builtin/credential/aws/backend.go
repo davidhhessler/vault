@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"sync"
 	"time"
-
+	"strings"
+	
 	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/iam"
@@ -274,7 +275,7 @@ func (b *backend) resolveArnToRealUniqueId(ctx context.Context, s logical.Storag
 // Adapted from https://docs.aws.amazon.com/sdk-for-go/api/aws/endpoints/
 // the "Enumerating Regions and Endpoint Metadata" section
 func getAnyRegionForAwsPartition(partitionId string) *endpoints.Region {
-	if string == "aws-iso-b" {
+	if strings.Compare(partitionId, "aws-iso-b") == 0 {
 		return "us-isob-east-1"
 	} else {
 	
